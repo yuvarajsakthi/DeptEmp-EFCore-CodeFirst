@@ -21,7 +21,7 @@ namespace DeptEmp.Controllers
         // GET: Departments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Departments.ToListAsync());
+            return View(await _context.Departments.Include(e => e.Employees).ToListAsync());
         }
 
         // GET: Departments/Details/5
@@ -33,6 +33,7 @@ namespace DeptEmp.Controllers
             }
 
             var department = await _context.Departments
+                .Include(e => e.Employees)
                 .FirstOrDefaultAsync(m => m.DepartmentId == id);
             if (department == null)
             {
